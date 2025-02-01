@@ -10,21 +10,21 @@ def read_capri_table(capri_file):
         data.append(line.strip().split(" "))
     return header, data
 
-capri_file = "capri_ss.csv"
+capri_file = "capri_ss2.csv"
 
 header, data = read_capri_table(capri_file)
 
 # our score is the combination
-# score = 0.1 * air - 1.0 * elec - 0.1 * vdw
+# score = 0.1 * air - 1.0 * elec - 0.1 * vdw - 0.01 * bsa
 # we will sort the data by this score
 
-idx_list = [header.index(el) for el in ["air", "dockq", "fnat"]]
+idx_list = [header.index(el) for el in ["air", "dockq", "fnat", "bsa"]]
 
 score_list = []
 for row in data:
     model = row[0]
     score = 0
-    for idx, weight in zip(idx_list, [0.1, -1.0, -0.1]):
+    for idx, weight in zip(idx_list, [0.1, -1.0, -0.1, -0.01]):
         score += weight * float(row[idx])
     score_list.append([model, score])
 
